@@ -50,11 +50,16 @@ app.app_context().push()
 def index():
     return render_template('app.html')
 
-@app.route('/app')
+@app.route('/clientapp')
+def client_app():
+  return app.send_static_file('app.html')
+
+
+@app.route('/app', methods=['GET'])
 @login_required
 def application():
-    
-    return render_template('app.html')
+    posts = Post.query.all()
+    return render_template('app.html', posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -73,9 +78,18 @@ def login():
     
     return render_template('index.html')
 
-@app.route('/clientapp')
-def client_app():
-  return app.send_static_file('app.html')
+
+@app.route('/createPost', methods=['POST'])
+@login_required
+def create_post():
+  text = request.form['text']
+  post = Post(text=text, userid=current_user.id)
+  db.session.add(post)
+  db.session.commit()
+  flash('Created')
+  return redirect(url_for('application'))
+
+
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080, debug=True)

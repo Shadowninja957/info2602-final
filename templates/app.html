@@ -11,14 +11,30 @@
         <div class="card" >
           <div class="card-content">
             <span class="card-title"></span>
-            <form name="addForm" method="POST" action="/createTodo">
+            <form name="addForm" method="POST" action="/createPost">
               <div class="input-field">
-               <textarea id="textarea1" class="materialize-textarea"></textarea>
+               <textarea id="textarea1" class="materialize-textarea" name="text"></textarea>
               </div>
               <input class="btn purple black-text " type="submit" value="Add Post" />
               
             </form>
           </div>
         </div>
+
+
+        <ul class="collection with-header" id="result">
+            {% if current_user.is_authenticated %}
+                {% for post in posts %}
+                     <li class="card collection-item col s12 m4">
+                        <form method="POST" action="" class="card-content">
+                          <span class="card-title">{{post.author.username}}
+                          </span>
+                          
+                        </form>
+                        
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
     </main>
 {% endblock %}
