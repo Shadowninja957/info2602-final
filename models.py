@@ -1,12 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True ,nullable=False)
-    email = db.Column(db.String(80), unique=True ,nullable=False)
+    email = db.Column(db.String(100), unique=True ,nullable=False)
     password = db.Column(db.String(50), unique=True ,nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True, cascade="all, delete-orphan")
+    reacts = db.relationship('UserReact', backref='reactions', lazy=True, cascade="all, delete-orphan")
 
     def toDict(self):
         return{
@@ -16,18 +19,51 @@ class User(db.Model):
             'password': self.password
 
         }
+    ''' Reference from Lab 11'''
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method='sha256')    
+ 
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
+    '''      End Reference   '''
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(100), unique=True ,nullable=False)
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    reacts = db.relationship('UserReact', backref='postReact', lazy=True, cascade="all, delete-orphan")
 
-    def toDict(self):
-        pass
-       
-class UserReact(db.Model):
-    pass
+    def getTotalLikes(self):
+        likes = 0
+        for reaction in self.reacts:
+            if reaction.react == "like":
+                likes += 1
+        return likes
+
+    def getTotalDislikes(self):
+        dislikes = 0
+        for reaction in self.reacts:
+            if reaction.react == "dislike":
+                dislikes += 1
+        return dislikes
     
+    def toDict(self):
+        return{
+            'post': self.text,
+            'username': self.author.username,
+            'likes': self.getTotalLikes(),
+            'dislikes': self.getTotalDislikes()
+        }       
+
+
+class UserReact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    react = db.Column(db.String(10))
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    postid = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    
+'''    
 class Logs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     studentId =  db.Column(db.Integer, nullable=False)
@@ -41,3 +77,4 @@ class Logs(db.Model):
             'stream': self.stream,
             'created': self.created.strftime("%m/%d/%Y, %H:%M:%S")
         }
+'''
