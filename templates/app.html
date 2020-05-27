@@ -6,6 +6,19 @@
 {{ super() }}
 
 {% block content %}
-    <h1>This view is partially rendered on the server using jinja</h1>
-    <h2>It must be dynamically served</h2>
+    <main class="container">
+
+        <div class="card" >
+          <div class="card-content">
+            <span class="card-title"></span>
+            <form name="addForm" method="POST" action="/createTodo">
+              <div class="input-field">
+               <textarea id="textarea1" class="materialize-textarea"></textarea>
+              </div>
+              <input class="btn purple black-text " type="submit" value="Add Post" />
+              
+            </form>
+          </div>
+        </div>
+    </main>
 {% endblock %}
