@@ -5,6 +5,25 @@
 {{ super() }}
 
 {% block content %}
-    <h1>This view is partially rendered on the server using jinja</h1>
-    <h2>It must be dynamically served</h2>
+    <main class="container">
+       <form class="card col s12" id="loginForm" method="POST" action="/login" style="padding:1em">
+
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="user1" name="username" type="text" class="validate">
+              <label for="first_name">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input name="password" type="password" class="validate">
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="card-action">
+            <input type="submit" class="purple text-black btn " value="Login">
+          </div>
+
+      </form>
+    </main>
 {% endblock %}
