@@ -11,10 +11,10 @@ from models import db, User, UserReact, Post #add application models
 ''' Begin boilerplate code '''
 
 ''' Begin Flask Login Functions '''
-# login_manager = LoginManager()
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
+login_manager = LoginManager()
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 ''' End Flask Login Functions '''
 
@@ -25,7 +25,7 @@ def create_app():
   app.config['SECRET_KEY'] = "MYSECRET"
 #   app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 7) # uncomment if using flsk jwt
   CORS(app)
-#   login_manager.init_app(app) # uncomment if using flask login
+  login_manager.init_app(app) # uncomment if using flask login
   db.init_app(app)
   return app
 
@@ -48,13 +48,32 @@ app.app_context().push()
 
 @app.route('/')
 def index():
-  return render_template('app.html')
-
-@app.route('/login')
-def login():
-  return render_template('index.html')
+    return render_template('app.html')
 
 @app.route('/app')
+@login_required
+def application():
+    
+    return render_template('app.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            flash('Logged in successfully.') 
+            login_user(user)
+            return redirect(url_for('application'))
+        else:
+            flash('Invalid username or password')
+        return render_template('index.html')    
+    
+    return render_template('index.html')
+
+@app.route('/clientapp')
 def client_app():
   return app.send_static_file('app.html')
 

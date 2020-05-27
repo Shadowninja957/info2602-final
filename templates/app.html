@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
-{% block title %}Backend App{% endblock %}
-{% block page %}Backend App{% endblock %}
+{% block title %} Welcome {{ current_user.username }} {% endblock %}
+{% block page %}  Welcome {{ current_user.username }} {% endblock %}
+
 
 {{ super() }}
 
