@@ -70,7 +70,7 @@ def login():
         
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
-            flash('Logged in successfully.') 
+            flash('successful login.') 
             login_user(user)
             return redirect(url_for('application'))
         else:
@@ -79,6 +79,8 @@ def login():
     
     return render_template('index.html')
 
+''' Reference from Lab 11 url: "https://nmendez.app/info2602/lab11/#0"
+        Took the basic template in repl.it and modified it     '''
 
 @app.route('/createPost', methods=['POST'])
 @login_required
@@ -101,7 +103,7 @@ def delete_post(id):
   flash ('Deleted!')
   return redirect(url_for('application'))
 
-@app.route('/updatePost/<id>', methods=['GET','POST'])
+@app.route('/updatePost/<id>', methods=['POST'])
 @login_required
 def update_post(id):
     reaction = request.args.get('selection')
@@ -116,6 +118,8 @@ def update_post(id):
     else:
         react.react = reaction
     return redirect(url_for('application'))
+
+'''      End Reference   '''
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080, debug=True)

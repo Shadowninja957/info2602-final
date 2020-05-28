@@ -6,6 +6,9 @@
 {{ super() }}
 
 {% block content %}
+    <!-- Reference from Lab 11 url: "https://nmendez.app/info2602/lab11/#0"
+        Took the basic template in repl.it and modified it
+    -->
     <main class="container">
 
         <div class="card" >
@@ -36,6 +39,7 @@
                           <p>Likes: {{ post.getTotalLikes() }} Dislikes: {{ post.getTotalDislikes() }}</p>
                           
                           <select class="browser-default" onchange="post{{post.id}}.submit()" name="selection">
+                            <option value="" disabled selected>Like</option>
                             <option value="like">Like</option>
                             <option value="dislike">Dislike</option>
                           </select>
@@ -51,4 +55,5 @@
             {% endif %}
         </ul>
     </main>
+    <!--  End Reference  -->
 {% endblock %}

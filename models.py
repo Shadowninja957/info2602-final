@@ -21,7 +21,8 @@ class User(db.Model, UserMixin):
 
         }
    
-    ''' Reference from Lab 11'''
+    ''' Reference from Lab 11 url: "https://nmendez.app/info2602/lab11/#0"
+        Took the basic template in repl.it and modified it     '''
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')    
  
@@ -41,8 +42,7 @@ class Post(db.Model):
     def getTotalLikes(self):
         likes = 0
         for reaction in self.reacts:
-            return reaction.react
-            if reaction:
+            if reaction.react == "like":
                 likes += 1
         return likes
 
