@@ -1,6 +1,10 @@
 from main import app
 from models import db, User, Post, UserReact
 
+''' These files are located in my github as well
+    url: https://github.com/Shadowninja957/info2602-final
+  '''
+
 db.create_all(app=app)
 
 user_1 = User(username="bob", email="bob@mail.com")
