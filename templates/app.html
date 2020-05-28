@@ -22,20 +22,20 @@
         </div>
 
 
-        <ul class="collection with-header" id="result">
+        <ul class="collection with-header" id="result" style="overflow-y: scroll;">
             {% if current_user.is_authenticated %}
                 {% for post in posts %}
                      <li class="card collection-item col s12 m4">
-                        <form method="POST" action="" class="card-content">
+                        <form id="post{{post.id}}" method="POST" action="updatePost/{{post.id}}" class="card-content">
                           <span class="card-title"><i class="material-icons prefix">account_circle</i>User: {{post.author.username}}
                           </span>
                           <p> {{ post.text }} </p>
                         </form>
                         
                         <div class="card-action">
-                          <p>Likes: 0 Dislikes: 0</p>
+                          <p>Likes: {{ post.getTotalLikes() }} Dislikes: {{ post.getTotalDislikes() }}</p>
                           
-                          <select class="browser-default">
+                          <select class="browser-default" onchange="post{{post.id}}.submit()" name="react">
                             <option value="Like">Like</option>
                             <option value="Dislike">Dislike</option>
                           </select>
