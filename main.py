@@ -45,7 +45,7 @@ app.app_context().push()
 
 # jwt = JWT(app, authenticate, identity)
 ''' End JWT Setup '''
-
+'''
 @app.route('/')
 def index():
     return render_template('app.html')
@@ -53,7 +53,7 @@ def index():
 @app.route('/clientapp')
 def client_app():
   return app.send_static_file('app.html')
-
+'''
 
 @app.route('/app', methods=['GET'])
 @login_required
@@ -61,6 +61,7 @@ def application():
     posts = Post.query.all()
     return render_template('app.html', posts=posts)
 
+@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

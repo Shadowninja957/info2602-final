@@ -22,7 +22,7 @@
         </div>
 
 
-        <ul class="collection with-header" id="result" style="overflow-y: scroll;">
+        <ul class="collection with-header" id="result" style="overflow-y: scroll; max-height: 600px;">
             {% if current_user.is_authenticated %}
                 {% for post in posts %}
                      <li class="card collection-item col s12 m4">
@@ -41,7 +41,7 @@
                           </select>
                           
                           {% if current_user.id == post.author.id %}
-                          <a href="/deletePost/{{post.id}}">DELETE</a>
+                          <a href="/deletePost/{{post.id}}" class="purple text-black btn">DELETE</a>
                           {% endif %}
                         </div>
                     

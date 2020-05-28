@@ -6,9 +6,9 @@ import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True ,nullable=False)
+    username = db.Column(db.String(80), unique=True ,nullable=False)
     email = db.Column(db.String(100), unique=True ,nullable=False)
-    password = db.Column(db.String(50), unique=True ,nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True, cascade="all, delete-orphan")
     reacts = db.relationship('UserReact', backref='reactions', lazy=True, cascade="all, delete-orphan")
 
@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
             'password': self.password
 
         }
+   
     ''' Reference from Lab 11'''
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')    
@@ -33,7 +34,7 @@ class User(db.Model, UserMixin):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(100), nullable=False)
+    text = db.Column(db.String(250), nullable=False)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     reacts = db.relationship('UserReact', backref='postReact', lazy=True, cascade="all, delete-orphan")
 
@@ -54,10 +55,13 @@ class Post(db.Model):
     
     def toDict(self):
         return{
+            'id': self.id,
+            'userid': self.userid,
             'post': self.text,
             'username': self.author.username,
             'likes': self.getTotalLikes(),
-            'dislikes': self.getTotalDislikes()
+            'dislikes': self.getTotalDislikes(),
+            'react': self.reacts
         }       
 
 
