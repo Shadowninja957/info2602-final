@@ -27,11 +27,24 @@
                 {% for post in posts %}
                      <li class="card collection-item col s12 m4">
                         <form method="POST" action="" class="card-content">
-                          <span class="card-title">{{post.author.username}}
+                          <span class="card-title"><i class="material-icons prefix">account_circle</i>User: {{post.author.username}}
                           </span>
-                          
+                          <p> {{ post.text }} </p>
                         </form>
                         
+                        <div class="card-action">
+                          <p>Likes: 0 Dislikes: 0</p>
+                          
+                          <select class="browser-default">
+                            <option value="Like">Like</option>
+                            <option value="Dislike">Dislike</option>
+                          </select>
+                          
+                          {% if current_user.id == post.author.id %}
+                          <a href="#">DELETE</a>
+                          {% endif %}
+                        </div>
+                    
                     </li>
                 {% endfor %}
             {% endif %}
