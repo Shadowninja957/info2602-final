@@ -33,14 +33,15 @@ class User(db.Model, UserMixin):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(100), unique=True ,nullable=False)
+    text = db.Column(db.String(100), nullable=False)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     reacts = db.relationship('UserReact', backref='postReact', lazy=True, cascade="all, delete-orphan")
 
     def getTotalLikes(self):
         likes = 0
         for reaction in self.reacts:
-            if reaction.react == "like":
+            return reaction.react
+            if reaction:
                 likes += 1
         return likes
 

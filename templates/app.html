@@ -36,8 +36,8 @@
                           <p>Likes: {{ post.getTotalLikes() }} Dislikes: {{ post.getTotalDislikes() }}</p>
                           
                           <select class="browser-default" onchange="post{{post.id}}.submit()" name="react">
-                            <option value="Like">Like</option>
-                            <option value="Dislike">Dislike</option>
+                            <option value="like">Like</option>
+                            <option value="dislike">Dislike</option>
                           </select>
                           
                           {% if current_user.id == post.author.id %}

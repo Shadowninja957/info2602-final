@@ -107,16 +107,10 @@ def update_post(id):
     post = Post.query.filter_by(id=id).first()
     if post == None:
         flash('Invalid id or unauthorized')
-    else:
-        if reaction == "Like":
-            react = UserReact(react="like", userid=current_user.id, postid=post.id)
-            db.session.add(react)
-            db.session.commit()
-        elif reaction == "Dislike":
-            react = UserReact(react="dislike", userid=current_user.id, postid=post.id)
-            db.session.add(react)
-            db.session.commit()
-  
+    react = UserReact(react=reaction.value, userid=current_user.id, postid=post.id)
+    db.session.add(react)
+    db.session.commit()
+        
     return redirect(url_for('application'))
 
 if __name__ == '__main__':
