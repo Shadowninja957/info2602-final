@@ -41,7 +41,7 @@
                           </select>
                           
                           {% if current_user.id == post.author.id %}
-                          <a href="#">DELETE</a>
+                          <a href="/deletePost/{{post.id}}">DELETE</a>
                           {% endif %}
                         </div>
                     

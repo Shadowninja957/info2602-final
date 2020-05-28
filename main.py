@@ -89,6 +89,16 @@ def create_post():
   flash('Created')
   return redirect(url_for('application'))
 
+@app.route('/deletePost/<id>', methods=["GET"])
+@login_required
+def delete_post(id):
+  post = Post.query.filter_by(userid=current_user.id, id=id).first()
+  if post == None:
+    flash ('Invalid id or unauthorized')
+  db.session.delete(post) # delete the object
+  db.session.commit()
+  flash ('Deleted!')
+  return redirect(url_for('application'))
 
 
 if __name__ == '__main__':
