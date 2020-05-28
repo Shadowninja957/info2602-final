@@ -100,17 +100,20 @@ def delete_post(id):
   flash ('Deleted!')
   return redirect(url_for('application'))
 
-@app.route('/updatePost/<id>', methods=['POST'])
+@app.route('/updatePost/<id>', methods=['GET','POST'])
 @login_required
 def update_post(id):
-    reaction = request.form.get('react')
+    reaction = request.args.get('selection')
     post = Post.query.filter_by(id=id).first()
     if post == None:
         flash('Invalid id or unauthorized')
-    react = UserReact(react=reaction.value, userid=current_user.id, postid=post.id)
-    db.session.add(react)
-    db.session.commit()
-        
+    react = UserReact.query.filter_by(react=reaction, userid=current_user.id, postid=post.id).first()
+    if react == None: 
+        react = UserReact(react=reaction, userid=current_user.id, postid=post.id)
+        db.session.add(react)
+        db.session.commit()
+    else:
+        react.react = reaction
     return redirect(url_for('application'))
 
 if __name__ == '__main__':

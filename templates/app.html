@@ -35,7 +35,7 @@
                         <div class="card-action">
                           <p>Likes: {{ post.getTotalLikes() }} Dislikes: {{ post.getTotalDislikes() }}</p>
                           
-                          <select class="browser-default" onchange="post{{post.id}}.submit()" name="react">
+                          <select class="browser-default" onchange="post{{post.id}}.submit()" name="selection">
                             <option value="like">Like</option>
                             <option value="dislike">Dislike</option>
                           </select>
